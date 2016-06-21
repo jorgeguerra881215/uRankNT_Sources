@@ -39,6 +39,7 @@ var DocViewer = (function(){
      */
     var _document,_keywords,_colorScale = '';
     var list  = new ContentList();
+    var _selectedKeywords = [];
     //var fs = require("fs");
 
     function DocViewer(arguments) {
@@ -61,6 +62,10 @@ var DocViewer = (function(){
             var label_list = $("#contentlist ul li[urank-id='"+_document.id+"'] h3");
             label_list.html(_document.title);
             label_list.attr('title',_document.title+'\n'+_document.description);
+
+            var terms = '';
+            _selectedKeywords.map(function(sk){ terms = terms+'  ' + sk.term + '('+sk.weight+')' });
+            _document.terms = terms;
 
             //list.build(_keywords,null);
             /*s.readFile('test.json', 'utf8', function(err,data){
@@ -146,6 +151,13 @@ var DocViewer = (function(){
         $p.hide().fadeIn('slow').scrollTo('top');
     };
 
+    /**
+     * Created by Jorch
+     * @private
+     */
+     var _updateSelectedKeys = function(selectedKeyWords){
+        _selectedKeywords = selectedKeyWords
+    };
 
     var _clear = function(){
         /**
@@ -172,7 +184,11 @@ var DocViewer = (function(){
         build: _build,
         clear: _clear,
         showDocument: _showDocument,
-        destroy: _destroy
+        destroy: _destroy,
+        /**
+         * Modified by Jorch
+         */
+        updateSelectedKeys: _updateSelectedKeys
     };
 
     return DocViewer;

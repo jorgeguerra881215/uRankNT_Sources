@@ -463,6 +463,23 @@ var ContentList = (function(){
         $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').css("opacity", "1");
     };
 
+    /**
+     * Created by Jorch
+     */
+    var _selectManyListItem = function(idArray) {
+        stopAnimation();
+        //$('.'+liClass).css("opacity", "0.2");
+        //$('.'+liClass).css("display", "none");
+        $('.'+liClass).addClass('li-nonshow');
+        for(var i = 0; i < idArray.length; i++){
+            var id = idArray[i];
+            //$('.'+liClass+'['+urankIdAttr+'="'+id+'"]').css("display", "block");
+            $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').removeClass('li-nonshow');
+            $('.'+liClass+'['+urankIdAttr+'="'+id+'"]').addClass('li-show');
+        }
+        return false;
+
+    };
 
     var _deselectAllListItems = function() {
         $('.'+liClass).css('opacity', '');
@@ -494,6 +511,8 @@ var ContentList = (function(){
         });
         $ul.removeClass(ulPaddingBottomclass);
         _this.multipleHighlightMode = true;
+
+        alert('este es')
     };
 
 
@@ -569,6 +588,7 @@ var ContentList = (function(){
         hover: _hover,
         unhover: _unhover,
         selectListItem: _selectListItem,
+        selectManyListItem: _selectManyListItem,
         deselectAllListItems: _deselectAllListItems,
         highlightListItems: _highlightListItems,
         clearAllFavicons: _clearAllFavicons,

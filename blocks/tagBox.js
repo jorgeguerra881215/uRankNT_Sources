@@ -148,6 +148,7 @@ var TagBox = (function(){
             });
 
             var term = $tag.getText(), stem = $tag.attr('stem');
+            console.log(term);
             _this.selectedKeywords.push({ term: term, stem: stem, weight: 1 });
         }
     };

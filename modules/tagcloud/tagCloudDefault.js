@@ -126,7 +126,7 @@ var TagCloudDefault = (function(){
             $tag.find('.'+keywordHintClass).css('visibility', 'hidden');
         }
         else {
-            console.log('entra');
+            //console.log('entra');
       /*      $tag.find('.'+documentHintClass).css('visibility', 'hidden');
             $tag.find('.'+keywordHintClass).css('visibility', 'hidden');*/
         }
@@ -235,6 +235,30 @@ var TagCloudDefault = (function(){
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //  Prototype methods
+    /**
+     * Created by Jorch
+     * @param word_connection
+     * @returns {number}
+     */
+    var periodicity = function(word_connection){
+        var abcdefghi = {'a':0.7,'b':0.7,'c':0.7,'d':0.7,'e':0.7,'f':0.7,'g':0.7,'h':0.7,'i':0.7,
+                         'A':0.5,'B':0.5,'C':0.5,'D':0.5,'E':0.5,'F':0.5,'G':0.5,'H':0.5,'I':0.5}
+        var result  = 0;
+
+        for(var i = 0; i < word_connection.length; i++){
+            var l = word_connection[i];
+            if(l in abcdefghi){
+                result += abcdefghi[l];
+            }
+        }
+
+        /*word_connection.forEach(function(l,i){
+            if(l in abcdefghi){
+                result += 1;
+            }
+        });*/
+        return result;
+    }
 
     /**
     * * @param {array of objects} keywords Description
@@ -255,7 +279,17 @@ var TagCloudDefault = (function(){
         $tagContainer = $('<div></div>').appendTo($outerTagContainer).addClass(tagContainerClass);
 
         this.keywords.forEach(function(k, i){
-            var $tag = $('<div></div>', { class: tagClass, id: 'urank-tag-' + i, 'tag-pos': i, stem: k.stem, text: k.term }).appendTo($tagContainer)//.appendTo($root);
+            /**
+             * Modified by Jorch
+             */
+            var word = k['stem'];
+            var x = periodicity(word);
+            x = x != 0? Math.floor(x)+1 : 0;
+            var perio = (5*x)/word.length;
+
+            var tagProperty = { class: tagClass, id: 'urank-tag-' + i, 'tag-pos': i, stem: k.stem, text: k.term, periodicity: perio };
+
+            var $tag = $('<div></div>', tagProperty).appendTo($tagContainer)//.appendTo($root);
             $tag.hide().fadeIn((i+1)*20);
 
             // Append pie chart section for document indicator

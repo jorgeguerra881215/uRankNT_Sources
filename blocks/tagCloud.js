@@ -72,21 +72,21 @@ var TagCloud = (function(){
          */
         var tagsClouds = [];
         if(typeof number_minDocFrequency !== "undefined"){
-            console.log('entro al nuevo !!!!!');
+            //console.log('entro al nuevo !!!!!');
             keywords.forEach(function(item,index){
-                console.log('numero de pattern: '+number_pattern);
+                //console.log('numero de pattern: '+number_pattern);
                if(item.inDocument.length >= number_minDocFrequency && item.repeated >= number_pattern){
                    tagsClouds.push(item);
                }
             });
-            tagsClouds = tagsClouds.slice(0,50);
-            console.log('numeor de stf connections: '+number_minDocFrequency);
+            tagsClouds = tagsClouds.slice(0,100);
+            //console.log('numeor de stf connections: '+number_minDocFrequency);
             this.tagcloud.build(tagsClouds, data, colorScale, options, keywordsDict);
         }
         else{
-            keywords = keywords.slice(0,10);
-            console.log('entro al normal');
-            console.log(keywords);
+            keywords = keywords.slice(0,100);
+            /*console.log('entro al normal');
+            console.log(keywords);*/
             //console.log(keywordsDict);
             //*******************************//
             this.tagcloud.build(keywords, data, colorScale, options, keywordsDict);

@@ -193,6 +193,12 @@ var Urank = (function(){
 
         onChange: function(selectedKeywords) {
 
+            /**
+             * Modified by Jorch
+             * @type {*}
+             */
+            docViewer.updateSelectedKeys(selectedKeywords);
+
             _this.selectedKeywords = selectedKeywords;
             _this.selectedId = STR_UNDEFINED;
 
@@ -345,6 +351,46 @@ var Urank = (function(){
             s.onRankByOverallScore.call(this);
         },
 
+        /**
+         * Created by Jorch
+         */
+        onFindNotLabeled: function(value){
+            console.log(value.currentTarget['checked']);
+            var notLabeled = [];
+            _this.data.forEach(function(d, i){
+                if(!value.currentTarget['checked']){
+                    notLabeled.push(d.id);
+                }
+                else{
+                    //console.log(d.index);
+                    var label = d.title;
+
+                    if(label.split(' ')[1] == 'Botnet'){
+                        notLabeled.push(d.id);
+                    }
+                }
+
+            });
+            //console.log(notLabeled);
+            contentList.selectManyListItem(notLabeled);
+        },
+        /**
+         * Created by Jorch
+         */
+        onChekFindNotLabeled: function(){
+            alert('checked');
+            var notLabeled = [];
+            _this.data.forEach(function(d, i){
+                //console.log(d.index);
+                var label = d.title;
+                if(label.split(' ')[1] == 'Botnet'){
+                    notLabeled.push(d.id);
+                }
+            });
+            //console.log(notLabeled);
+            contentList.selectManyListItem(notLabeled);
+        },
+
         onRankByMaximumScore: function() {
             _this.rankingMode = RANKING_MODE.max_score;
             EVTHANDLER.onChange(_this.selectedKeywords);
@@ -456,10 +502,26 @@ var Urank = (function(){
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //  Miscelaneous
+    /**
+     * Modified by Jorch
+     */
+   /* var MISC2 = {
+        getCurrentLabeled: function(){
+            return{
+                ranking: _this.rankingModel.getRanking().map(function(d){
+                    return {
+                        id: d.id,
+                        label: d.title,
+                        status: d.description + '\n'
+                    }
+                })
+            };
+        }
+    };*/
 
     var MISC = {
         getCurrentState: function(){
-            return {
+            /*return {
                 mode: _this.rankingMode,
                 status: _this.rankingModel.getStatus(),
                 selectedKeywords: _this.selectedKeywords.map(function(sk){ return { term: sk.term, weight: sk.weight } }),
@@ -474,9 +536,21 @@ var Urank = (function(){
                         weightedKeywords: d.weightedKeywords.map(function(wk){ return { term: wk.term, weightedScore: wk.weightedScore } })
                     }
                 })
-            };
+            };*/
+            var terms = '';
+            //_this.selectedKeywords.map(function(sk){ terms = terms+'  ' + sk.term + '('+sk.weight+')' });
+            //var text = 'Labeling using that terms: '+ terms+'\n';
+            var text = 'ID | Label | Keywords \n';
+            this.rankingModel.getRanking().map(function(d){
+                if('terms' in d){
+                    text = text + d.id +' | '+ d.title + ' | '+  d.terms+ '\n';//+ ' | ' + d.description+'\n';
+                }
+                else{
+                    text = text + d.id +' | '+ d.title + '\n';//+ ' | ' + d.description+'\n';
+                }
+            });
+            return text;
         }
-
     };
 
 
@@ -490,10 +564,16 @@ var Urank = (function(){
         reset: EVTHANDLER.onReset,
         rankByOverallScore: EVTHANDLER.onRankByOverallScore,
         rankByMaximumScore: EVTHANDLER.onRankByMaximumScore,
+        findNotLabeled: EVTHANDLER.onFindNotLabeled,
+        //checkfindNotLabeled: EVTHANDLER.onChekFindNotLabeled(),
         clear: EVTHANDLER.onClear,
         destroy: EVTHANDLER.onDestroy,
         getCurrentState: MISC.getCurrentState,
-        updateTagsCloud: EVTHANDLER.onUpdateTagsCloud
+        updateTagsCloud: EVTHANDLER.onUpdateTagsCloud//,
+        /**
+         * Modified by Jorch
+         */
+        //getCurrentLabeled: MISC2.getCurrentLabeled()
     };
 
     return Urank;
