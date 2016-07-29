@@ -371,7 +371,7 @@
     display: inline-flex;
     float: left;
     align-items: center;
-    width: calc(100% - 108px);
+    /*width: calc(100% - 108px);*/
     height: 100%;
     margin-left: 5px;
     vertical-align: top;
@@ -388,7 +388,7 @@
 
 .urank-list-li-buttons-container {
     float: right;
-    width: 38px;
+    width: 58px;
     height: 100%;
     vertical-align: top;
 }
@@ -548,9 +548,9 @@ Document Panel (right) - for visualizing highlighted text
 }
 
 .urank-docviewer-details-section {
-    display: flex;
+    /*display: flex;*/
     flex-wrap: wrap;
-    height: 9em;
+    /*height: 9em;*/
     text-align: left;
     margin: 5px;
     color: snow;
@@ -558,7 +558,7 @@ Document Panel (right) - for visualizing highlighted text
 }
 
 .urank-docviewer-details-section div {
-    display: inline-flex;
+    /*display: inline-flex;*/
     width: 100%;
     align-items: flex-start;
     padding: .2em 0em;
@@ -637,4 +637,29 @@ Document Panel (right) - for visualizing highlighted text
     overflow-x: hidden;
     margin-right: -100px;
     padding-right: 84px;
+}
+
+/**********************************************************************************************************************
+*
+*   Trafic ligth
+*
+***********************************************************************************************************************/
+
+.traffic-ligth{
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    margin-right: 4px;
+}
+
+.yellow-circle{
+    background: yellow;
+}
+
+.red-circle{
+     background: red;
+ }
+
+.green-circle{
+    background: #008000;
 }

@@ -57,11 +57,10 @@ var DocViewer = (function(){
             _document.title = label;
             _showDocument(_document,_keywords,_colorScale);
             $('#label-text').val(label);
-            //console.log('button click');
-            //console.log(_document);
             var label_list = $("#contentlist ul li[urank-id='"+_document.id+"'] h3");
-            label_list.html(_document.title);
+            //label_list.html(_document.title);
             label_list.attr('title',_document.title+'\n'+_document.description);
+
 
             var terms = '';
             _selectedKeywords.map(function(sk){ terms = terms+'  ' + sk.term + '('+sk.weight+')' });
@@ -71,8 +70,46 @@ var DocViewer = (function(){
             /*s.readFile('test.json', 'utf8', function(err,data){
                 console.log(data);
             });*/
+            //Write info in data.txt file using php script
+            var scriptURL = '../server/save.php',
+                date = new Date(),
+                timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
+                urankState = urank.getCurrentState(),
+                gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: JSON.stringify(urankState) }];//JSON.stringify(urankState)
+
+            $.generateFile({ filename: "bookmarks.json", content: JSON.stringify(urankState), script: scriptURL });
+
             return false;
         }
+    }
+
+
+    /**
+     * Created by Jorch
+     * Labeling connections like Botnet
+     */
+    var saveBotnetLabel = function saveLabelBton(event){
+        $('#label-text').val("Botnet");
+        //changing a color
+        $("[urank-span-id='"+_document.id+"']").removeClass('yellow-circle');
+        $("[urank-span-id='"+_document.id+"']").removeClass('green-circle');
+        $("[urank-span-id='"+_document.id+"']").addClass('red-circle');
+        saveLabel(event);
+
+    }
+
+    /**
+     * Created by Jorch
+     * Labeling connections like Normal
+     */
+    var saveNormalLabel = function saveLabelBton(event){
+        $('#label-text').val("Normal");
+        //changing a color
+
+        $("[urank-span-id='"+_document.id+"']").removeClass('yellow-circle');
+        $("[urank-span-id='"+_document.id+"']").removeClass('red-circle');
+        $("[urank-span-id='"+_document.id+"']").addClass('green-circle');
+        saveLabel(event);
     }
 
     var _build = function(opt) {
@@ -85,15 +122,36 @@ var DocViewer = (function(){
         // Append details section, titles and placeholders for doc details
         $detailsSection = $("<div class='" + detailsSectionClass + "'></div>").appendTo($root);
 
-        var $titleContainer = $('<div></div>').appendTo($detailsSection);
-        $("<label>Title:</label>").appendTo($titleContainer);
+        var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
+        $("<label>Label:</label>").appendTo($titleContainer);
         $("<h3 id='urank-docviewer-details-title'></h3>").appendTo($titleContainer);
+
         /**
          * Modified by Jorch
          */
+        //Section to show connection info
+        var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
+        $("<label>Initial Port:</label>").appendTo($titleContainer);
+        $("<h3 id='urank-docviewer-details-initport'></h3>").appendTo($titleContainer);
+        var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
+        $("<label>End Port:</label>").appendTo($titleContainer);
+        $("<h3 id='urank-docviewer-details-destport'></h3>").appendTo($titleContainer);
+        var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
+        $("<label>Port:</label>").appendTo($titleContainer);
+        $("<h3 id='urank-docviewer-details-port'></h3>").appendTo($titleContainer);
+        var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
+        $("<label>Protocol:</label>").appendTo($titleContainer);
+        $("<h3 id='urank-docviewer-details-protocol'></h3>").appendTo($titleContainer);
+
         var $titleContainer = $('<div></div>').appendTo($detailsSection);
-        $("<div id='urank-docviewer-labeling'><input type='text' placeholder='Add new label...' id='label-text'><button id='urank-label-button'>Done</button></div>").appendTo($titleContainer);
-        $('#urank-label-button').click(saveLabel);
+        $("<div id='urank-docviewer-labeling'>" +
+            "<input type='text' placeholder='Add new label...' id='label-text' style='display: none'>" +
+            "<button id='urank-label-button-botnet'>Botnet</button>" +
+            "<button id='urank-label-button-normal' style='float: right'>Normal</button>" +
+          "</div>").appendTo($titleContainer);
+        $('#urank-label-button-botnet').click(saveBotnetLabel);
+        $('#urank-label-button-normal').click(saveNormalLabel);
+
 
         this.opt.facetsToShow.forEach(function(facetName){
             var $facetContainer = $('<div></div>').appendTo($detailsSection);
@@ -131,9 +189,42 @@ var DocViewer = (function(){
         _document = document;
         _keywords = keywords;
         _colorScale = colorScale;
+        var port_info = document.id.split("-");
+        var init_port = port_info[0];
+        var dest_port = port_info[1];
+        var port = port_info[2];
+        var protocol = port_info[3];
         $('#label-text').val('');
+        $(detailItemIdPrefix + 'initport').html(getStyledText(init_port, keywords, colorScale));
+        $(detailItemIdPrefix + 'destport').html(getStyledText(dest_port, keywords, colorScale));
+        $(detailItemIdPrefix + 'port').html(getStyledText(port, keywords, colorScale));
+        $(detailItemIdPrefix + 'protocol').html(getStyledText(protocol, keywords, colorScale));
+        //$('#urank-label-button-normal').prop('disabled', true);
+        var bton_bot = $('#urank-label-button-botnet');
+        var bton_norm = $('#urank-label-button-normal');
+        switch (document.title){
+            case 'Botnet':
+                bton_bot.css('opacity',0.5);
+                bton_bot.prop('disabled', true);
+                bton_norm.css('opacity',1);
+                bton_norm.prop('disabled', false);
+                break;
+            case 'Normal':
+                bton_norm.css('opacity',0.5);
+                bton_norm.prop('disabled', true);
+                bton_bot.css('opacity',1);
+                bton_bot.prop('disabled', false);
+                break;
+            default:
+                bton_bot.css('opacity',1);
+                bton_bot.prop('disabled', false);
+                bton_norm.css('opacity',1);
+                bton_norm.prop('disabled', false);
+        }
 
         $(detailItemIdPrefix + 'title').html(getStyledText(document.title, keywords, colorScale));
+
+
 
         var getFacet = function(facetName, facetValue){
             return facetName == 'year' ? parseDate(facetValue) : facetValue;
@@ -147,7 +238,7 @@ var DocViewer = (function(){
         });
 
         $contentSection.empty();
-        var $p = $('<p></p>').appendTo($contentSection).html(getStyledText(document.description, keywords, colorScale));
+        var $p = $('<p></p>').appendTo($contentSection).html(getStyleWordSecuencie(document.description, keywords, colorScale));
         $p.hide().fadeIn('slow').scrollTo('top');
     };
 

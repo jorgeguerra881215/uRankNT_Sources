@@ -212,6 +212,31 @@ function getStyledWord (word, stemmedKeywords, colorScale){
     return word;
 }
 
+/**
+ * Created by Jorch
+ * @param text
+ * @param stemmedKeywords
+ * @param colorScale
+ * @returns {string}
+ */
+function getStyleWordSecuencie(text, stemmedKeywords, colorScale){
+    var styledText = '';
+    var keyWords = {};
+    stemmedKeywords.forEach(function(key){
+       keyWords[key] = colorScale(key);
+    });
+
+    text.split(' ').forEach(function(word){
+        if(word in keyWords){
+            styledText += "<strong style='color:" + keyWords[word] + "'>" + word + "</strong> ";
+        }
+        else{
+            styledText += word + ' ';
+        }
+    });
+    return styledText
+}
+
 
 
 

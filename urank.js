@@ -6,7 +6,7 @@ var Urank = (function(){
     // Color scales
     var tagColorRange = colorbrewer.Blues[TAG_CATEGORIES + 1].slice(1, TAG_CATEGORIES+1);
   //  tagColorRange.splice(tagColorRange.indexOf("#08519c"), 1, "#2171b5");
-    var queryTermColorRange = colorbrewer.Set1[9];
+    var queryTermColorRange = colorbrewer.Set2[8];
     queryTermColorRange.splice(queryTermColorRange.indexOf("#ffff33"), 1, "#ffd700");
 
     //   defaults
@@ -311,6 +311,25 @@ var Urank = (function(){
         onFaviconClicked: function(documentId){
             contentList.toggleFavicon(documentId);
             s.onFaviconClicked.call(this, documentId);
+
+            /**
+             * Modified by Jorch
+             * @type {{name: string, score: number}}
+             */
+            var scriptURL = '../server/save.php',
+             date = new Date(),
+             timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
+             urankState = _this.urank.getCurrentState(),
+             gf = $('#select-download').val() == '2files' ?
+             [{ filename: 'urank_selected_keywords_' + timestamp + '.txt', content: JSON.stringify(urankState.selectedKeywords) },
+             { filename: 'urank_ranking_' + timestamp + '.txt', content: JSON.stringify(urankState.ranking) }] :
+             [{ filename: 'urank_state_' + timestamp + '.txt', content: JSON.stringify(urankState) }];
+            var obj = {
+                name: 'Dhayalan',
+                score: 100
+            };
+            var content  = JSON.stringify(obj);
+            $.generateFile({ filename: "bookmarks.json", content: content, script: '../server/save.php' });
         },
 
         onWatchiconClicked: function(documentId) {
@@ -355,24 +374,56 @@ var Urank = (function(){
          * Created by Jorch
          */
         onFindNotLabeled: function(value){
-            console.log(value.currentTarget['checked']);
-            var notLabeled = [];
+            console.log(value);
+            var list = [];
+            _this.data.forEach(function(d, i){
+                var label = d.title;
+                switch (value) {
+                    case 'nonlabel':
+                        if(label != 'Botnet' && label != 'Normal'){
+                            list.push(d.id);
+                        }
+                        break;
+                    case 'botnet':
+                        if(label == 'Botnet'){
+                            list.push(d.id);
+                        }
+                        break;
+                    case 'normal':
+                        if(label == 'Normal'){
+                            list.push(d.id);
+                        }
+                        break;
+                    default :
+                        list.push(d.id);
+                        break;
+                }
+
+            });
+            //console.log(notLabeled);
+            contentList.selectManyListItem(list);
+        },
+
+        onFindBotnet:function(value){
+            var botnets = [];
             _this.data.forEach(function(d, i){
                 if(!value.currentTarget['checked']){
-                    notLabeled.push(d.id);
+                    botnets.push(d.id);
                 }
                 else{
                     //console.log(d.index);
                     var label = d.title;
 
-                    if(label.split(' ')[1] == 'Botnet'){
-                        notLabeled.push(d.id);
+                    /*if(label.split(' ')[1] == 'Botnet'){
+                     notLabeled.push(d.id);
+                     }*/
+                    if(label == 'Botnet'){
+                        botnets.push(d.id);
                     }
                 }
 
             });
-            //console.log(notLabeled);
-            contentList.selectManyListItem(notLabeled);
+            contentList.selectManyListItem(botnets);
         },
         /**
          * Created by Jorch
@@ -540,16 +591,36 @@ var Urank = (function(){
             var terms = '';
             //_this.selectedKeywords.map(function(sk){ terms = terms+'  ' + sk.term + '('+sk.weight+')' });
             //var text = 'Labeling using that terms: '+ terms+'\n';
-            var text = 'ID | Label | Keywords \n';
+            var text = '[\n';//'ID | Label | Keywords \n';
+            var id_term = [];
+            var result = [];
             this.rankingModel.getRanking().map(function(d){
                 if('terms' in d){
-                    text = text + d.id +' | '+ d.title + ' | '+  d.terms+ '\n';//+ ' | ' + d.description+'\n';
+                    //text = text + d.id +' | '+ d.title + ' | '+  d.terms+ '\n';//+ ' | ' + d.description+'\n';
+                    id_term[d.id] = d.terms;
                 }
-                else{
+                /*else{
                     text = text + d.id +' | '+ d.title + '\n';//+ ' | ' + d.description+'\n';
-                }
+                }*/
             });
-            return text;
+            this.data.map(function(d){
+                result.push(
+                    {
+                        id: d.id,
+                        title: d.title,
+                        uri:"http://www.mendeley.com",
+                        eexcessURI: "http://www.mendeley.com",
+                        creator:"David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
+                        description: d.description,
+                        collectionName: "",
+                        keyword: d.id in id_term? id_term[d.id]:"",
+                        facets:{provider: "mendeley",year: "2004"}
+                    }
+                );
+
+                //text = text + d.id +' | '+ d.title + '\n';
+            });
+            return result;
         }
     };
 
@@ -565,6 +636,7 @@ var Urank = (function(){
         rankByOverallScore: EVTHANDLER.onRankByOverallScore,
         rankByMaximumScore: EVTHANDLER.onRankByMaximumScore,
         findNotLabeled: EVTHANDLER.onFindNotLabeled,
+        //findBotnet:EVTHANDLER.onFindBotnet,
         //checkfindNotLabeled: EVTHANDLER.onChekFindNotLabeled(),
         clear: EVTHANDLER.onClear,
         destroy: EVTHANDLER.onDestroy,

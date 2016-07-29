@@ -349,9 +349,22 @@ var ContentList = (function(){
             $("<div></div>").appendTo($rankingDiv).addClass(rankingPosMovedClass);
             // title section
             var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
-            $('<h3></h3>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: d.title, title: d.title + '\n' + d.description }).appendTo($titleDiv);
+            $('<h3>'+d.id+'</h3>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: d.id, title: d.title + '\n' + d.description }).appendTo($titleDiv);
             // buttons section
             var $buttonsDiv = $("<div></div>").appendTo($li).addClass(liButtonsContainerClass);
+
+            /**
+             * Modified by Jorch
+             * Adding traffic light in the connection list to indicate the labeling process
+             */
+            var trafic_ligth = 'yellow-circle';
+            switch (d.title) {
+                case 'Botnet': trafic_ligth = 'red-circle'; break;
+                case 'Normal': trafic_ligth = 'green-circle'; break;
+                default: break;
+            }
+            $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');
+
             $("<span>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
             $("<span>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
             // Subtle animation
@@ -512,7 +525,7 @@ var ContentList = (function(){
         $ul.removeClass(ulPaddingBottomclass);
         _this.multipleHighlightMode = true;
 
-        alert('este es')
+        //alert('este es')
     };
 
 
