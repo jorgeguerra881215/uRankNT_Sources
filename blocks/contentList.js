@@ -275,7 +275,6 @@ var ContentList = (function(){
 
 
     var buildCustomList = function() {
-
         var c = {
             root: _this.opt.customOptions.selectors.root,
             ul: _this.opt.customOptions.selectors.ul,
@@ -332,7 +331,6 @@ var ContentList = (function(){
 
 
     var buildDefaultList = function() {
-
         $root.empty().addClass(hiddenScrollbarClass);
         $scrollable = $('<div></div>').appendTo($root)
             .addClass(hiddenScrollbarInnerClass)
@@ -408,6 +406,7 @@ var ContentList = (function(){
     */
     var _update = function(data, status, selectedKeywords, colorScale) {
 
+
         this.data = (status != RANKING_STATUS.no_ranking) ? data.slice() : this.data;
         this.selectedKeywords = selectedKeywords.map(function(k){ return k.stem });
         this.status = status;
@@ -451,6 +450,12 @@ var ContentList = (function(){
         this.animationTimeout = updateFunc[this.status].call(this);
 
         setTimeout(removeMovingStyle, removeDelay);
+
+        /**
+         * Modified by Jorch
+         */
+        $('#doc-viewer-detail').css('display','none');
+        $('#mCSB_2_container .urank-docviewer-content-section p').html('');
     };
 
 
@@ -525,7 +530,6 @@ var ContentList = (function(){
         $ul.removeClass(ulPaddingBottomclass);
         _this.multipleHighlightMode = true;
 
-        //alert('este es')
     };
 
 

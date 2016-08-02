@@ -373,35 +373,39 @@ var Urank = (function(){
         /**
          * Created by Jorch
          */
-        onFindNotLabeled: function(value){
+        onFindNotLabeled: function(value,aux){
             console.log(value);
+            value = {
+                unlabelled:$('#chek-find-not-labeled').is(':checked') ? $('#chek-find-not-labeled').attr('value') : null,
+                bot:$('#chek-find-botnet').is(':checked') ? $('#chek-find-botnet').attr('value') : null,
+                notBot:$('#chek-find-normal').is(':checked') ? $('#chek-find-normal').attr('value') : null,
+                all:$('#chek-find-All').is(':checked') ? $('#chek-find-All').attr('value') : null,
+                initialIp:$('#filter-initial-port:checked').length > 0 ? $('#filter-initial-port').attr('value'): null,
+                endIp:$('#filter-end-port:checked').length > 0 ? $('#filter-end-port').attr('value') : null,
+                port:$('#filter-port:checked').length > 0 ? $('#filter-port').attr('value') : null,
+                protocol:$('#filter-protocol:checked').length > 0 ? $('#filter-protocol').attr('value') : null
+            }
             var list = [];
             _this.data.forEach(function(d, i){
                 var label = d.title;
-                switch (value) {
-                    case 'nonlabel':
-                        if(label != 'Botnet' && label != 'Normal'){
-                            list.push(d.id);
-                        }
-                        break;
-                    case 'botnet':
-                        if(label == 'Botnet'){
-                            list.push(d.id);
-                        }
-                        break;
-                    case 'normal':
-                        if(label == 'Normal'){
-                            list.push(d.id);
-                        }
-                        break;
-                    default :
-                        list.push(d.id);
-                        break;
-                }
+                var attributes = d.id.split('-');
+                var valid = true;
+                if(value.unlabelled != null && !(label != 'Botnet' && label != 'Normal')) valid = false;
+                if(valid && value.bot != null && label != 'Botnet') valid = false;
+                if(valid && value.notBot != null && label != 'Normal') valid = false;
+                //if(valid && value.all)
+                if(valid && value.initialIp != null && value.initialIp != attributes[0]) valid = false;
+                if(valid && value.endIp != null && value.endIp != attributes[1]) valid = false;
+                if(valid && value.port != null && value.port != attributes[2]) valid = false;
+                if(valid && value.protocol != null && value.protocol != attributes[3]) valid = false;
 
+                if(valid){
+                    list.push(d.id);
+                }
             });
-            //console.log(notLabeled);
+
             contentList.selectManyListItem(list);
+
         },
 
         onFindBotnet:function(value){

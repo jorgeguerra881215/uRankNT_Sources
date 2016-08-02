@@ -120,7 +120,7 @@ var DocViewer = (function(){
         $root = $(s.root).empty().addClass(containerClasses);
 
         // Append details section, titles and placeholders for doc details
-        $detailsSection = $("<div class='" + detailsSectionClass + "'></div>").appendTo($root);
+        $detailsSection = $("<div id='doc-viewer-detail' style='display: none' class='" + detailsSectionClass + "'></div>").appendTo($root);
 
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
         $("<label>Label:</label>").appendTo($titleContainer);
@@ -131,16 +131,16 @@ var DocViewer = (function(){
          */
         //Section to show connection info
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
-        $("<label>Initial Port:</label>").appendTo($titleContainer);
+        $("<input type='checkbox' id='filter-initial-port' name='connection-attribute' value='initial-ip'><label>Initial IP:</label>").appendTo($titleContainer);
         $("<h3 id='urank-docviewer-details-initport'></h3>").appendTo($titleContainer);
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
-        $("<label>End Port:</label>").appendTo($titleContainer);
+        $("<input type='checkbox' id='filter-end-port' name='connection-attribute' value='end-ip'><label>End IP:</label>").appendTo($titleContainer);
         $("<h3 id='urank-docviewer-details-destport'></h3>").appendTo($titleContainer);
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
-        $("<label>Port:</label>").appendTo($titleContainer);
+        $("<input type='checkbox' id='filter-port' name='connection-attribute' value='port'><label>Port:</label>").appendTo($titleContainer);
         $("<h3 id='urank-docviewer-details-port'></h3>").appendTo($titleContainer);
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
-        $("<label>Protocol:</label>").appendTo($titleContainer);
+        $("<input type='checkbox' id='filter-protocol' name='connection-attribute' value='protocol'><label>Protocol:</label>").appendTo($titleContainer);
         $("<h3 id='urank-docviewer-details-protocol'></h3>").appendTo($titleContainer);
 
         var $titleContainer = $('<div></div>').appendTo($detailsSection);
@@ -152,6 +152,10 @@ var DocViewer = (function(){
         $('#urank-label-button-botnet').click(saveBotnetLabel);
         $('#urank-label-button-normal').click(saveNormalLabel);
 
+        $('input[type=checkbox][name=connection-attribute]').change(function() {
+            urank.findNotLabeled(this.value,this.filter);
+
+        });
 
         this.opt.facetsToShow.forEach(function(facetName){
             var $facetContainer = $('<div></div>').appendTo($detailsSection);
@@ -189,6 +193,7 @@ var DocViewer = (function(){
         _document = document;
         _keywords = keywords;
         _colorScale = colorScale;
+        $('#doc-viewer-detail').css('display','block');
         var port_info = document.id.split("-");
         var init_port = port_info[0];
         var dest_port = port_info[1];
@@ -199,6 +204,10 @@ var DocViewer = (function(){
         $(detailItemIdPrefix + 'destport').html(getStyledText(dest_port, keywords, colorScale));
         $(detailItemIdPrefix + 'port').html(getStyledText(port, keywords, colorScale));
         $(detailItemIdPrefix + 'protocol').html(getStyledText(protocol, keywords, colorScale));
+        $('#filter-initial-port').attr('value',init_port);
+        $('#filter-end-port').attr('value',dest_port);
+        $('#filter-port').attr('value',port);
+        $('#filter-protocol').attr('value',protocol);
         //$('#urank-label-button-normal').prop('disabled', true);
         var bton_bot = $('#urank-label-button-botnet');
         var bton_norm = $('#urank-label-button-normal');
