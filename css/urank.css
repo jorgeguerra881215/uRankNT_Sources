@@ -663,3 +663,21 @@ Document Panel (right) - for visualizing highlighted text
 .green-circle{
     background: #008000;
 }
+
+/**********************************************************************************************************************
+*
+*   Connection Viewer
+*
+***********************************************************************************************************************/
+
+#urank-docviewer-labeling-text{
+    clear: both;
+    display: block;
+    margin-top: 5px;
+    width: 100%
+}
+
+label.urank-docviewer-attributes{
+    font-weight: bold;
+    margin-left: 5px;
+}

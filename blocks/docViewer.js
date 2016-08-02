@@ -54,7 +54,12 @@ var DocViewer = (function(){
         var label = $('#label-text').val();
         if(_document != '' != label != ''){
 
+            var terms = '';
+            _selectedKeywords.map(function(sk){ terms = terms+'  ' + sk.term + '('+sk.weight+')' });
+            _document.terms = terms;
+
             _document.title = label;
+            _document.keyword = terms;
             _showDocument(_document,_keywords,_colorScale);
             $('#label-text').val(label);
             var label_list = $("#contentlist ul li[urank-id='"+_document.id+"'] h3");
@@ -62,9 +67,7 @@ var DocViewer = (function(){
             label_list.attr('title',_document.title+'\n'+_document.description);
 
 
-            var terms = '';
-            _selectedKeywords.map(function(sk){ terms = terms+'  ' + sk.term + '('+sk.weight+')' });
-            _document.terms = terms;
+
 
             //list.build(_keywords,null);
             /*s.readFile('test.json', 'utf8', function(err,data){
@@ -124,30 +127,32 @@ var DocViewer = (function(){
 
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
         $("<label>Label:</label>").appendTo($titleContainer);
-        $("<h3 id='urank-docviewer-details-title'></h3>").appendTo($titleContainer);
+        //$("<div id='urank-docviewer-details-title'></div>").appendTo($titleContainer);
+        $("<label id='urank-docviewer-details-label' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
 
         /**
          * Modified by Jorch
          */
         //Section to show connection info
-        var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
+        var $titleContainer = $('<div style="height: 30px; margin-top: 30px"></div>').appendTo($detailsSection);
         $("<input type='checkbox' id='filter-initial-port' name='connection-attribute' value='initial-ip'><label>Initial IP:</label>").appendTo($titleContainer);
-        $("<h3 id='urank-docviewer-details-initport'></h3>").appendTo($titleContainer);
+        $("<label id='urank-docviewer-details-initport' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
         $("<input type='checkbox' id='filter-end-port' name='connection-attribute' value='end-ip'><label>End IP:</label>").appendTo($titleContainer);
-        $("<h3 id='urank-docviewer-details-destport'></h3>").appendTo($titleContainer);
+        $("<label id='urank-docviewer-details-destport' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
         $("<input type='checkbox' id='filter-port' name='connection-attribute' value='port'><label>Port:</label>").appendTo($titleContainer);
-        $("<h3 id='urank-docviewer-details-port'></h3>").appendTo($titleContainer);
+        $("<label id='urank-docviewer-details-port' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
         var $titleContainer = $('<div style="height: 30px"></div>').appendTo($detailsSection);
         $("<input type='checkbox' id='filter-protocol' name='connection-attribute' value='protocol'><label>Protocol:</label>").appendTo($titleContainer);
-        $("<h3 id='urank-docviewer-details-protocol'></h3>").appendTo($titleContainer);
+        $("<label id='urank-docviewer-details-protocol' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
 
         var $titleContainer = $('<div></div>').appendTo($detailsSection);
         $("<div id='urank-docviewer-labeling'>" +
             "<input type='text' placeholder='Add new label...' id='label-text' style='display: none'>" +
             "<button id='urank-label-button-botnet'>Botnet</button>" +
             "<button id='urank-label-button-normal' style='float: right'>Normal</button>" +
+            "<textarea id='urank-docviewer-labeling-text' rows='5' placeholder='Give us your tools for labeling'></textarea>"+
           "</div>").appendTo($titleContainer);
         $('#urank-label-button-botnet').click(saveBotnetLabel);
         $('#urank-label-button-normal').click(saveNormalLabel);
@@ -231,8 +236,11 @@ var DocViewer = (function(){
                 bton_norm.prop('disabled', false);
         }
 
-        $(detailItemIdPrefix + 'title').html(getStyledText(document.title, keywords, colorScale));
-
+        $(detailItemIdPrefix + 'label').html(document.title+ //class='urank-tagcloud-tag ui-draggable ui-draggable-handle dragging active'
+            "<div style='width: 100%; height: 30px'>"+
+                ""+
+                document.keyword+
+            "</div>");
 
 
         var getFacet = function(facetName, facetValue){
