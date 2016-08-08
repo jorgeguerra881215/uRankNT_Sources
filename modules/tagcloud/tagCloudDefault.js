@@ -23,7 +23,7 @@ var TagCloudDefault = (function(){
     var $root = $(''), $tagContainer = $(''),
 
         tagHoverStyle = {
-            background: '-webkit-linear-gradient(top, rgb(0, 102, 255), rgb(20, 122, 255), rgb(0, 102, 255))',
+            //background: '-webkit-linear-gradient(top, rgb(0, 102, 255), rgb(20, 122, 255), rgb(0, 102, 255))',
             border: 'solid 1px rgb(0, 102, 255)',
             color: '#eee',
             'text-shadow': ''
@@ -173,10 +173,11 @@ var TagCloudDefault = (function(){
     var setTagProperties = function($tag) {
 
         $tag.removeAttr('data-hint');
+        var periodicity = $tag.attr('periodicity');
         if(!$tag.hasClass(draggingClass)) {
             $tag.removeClass(selectedClass)
                 .css({
-                background: getGradientString($tag.data('originalColor')),
+                background: getGradientString($tag.data('originalColor'),null,periodicity),
                 border: '1px solid ' + $tag.data('originalColor'),
                 color: '', textShadow: '', cursor: ''
             });
@@ -389,9 +390,10 @@ var TagCloudDefault = (function(){
 
     var _unhoverTag = function(index) {
         var $tag = $(tagIdPrefix + '' + index);
+        var periodicity = $tag.attr('periodicity');
         if(!$tag.hasClass(selectedClass)) {
             var color = $(tagIdPrefix + '' + index).data('originalColor');
-            $tag.css({ background: getGradientString(color), border: '1px solid ' + color, color: '#111' });
+            $tag.css({ background: getGradientString(color,null,periodicity), border: '1px solid ' + color, color: '#111' });
         }
     };
 
@@ -417,10 +419,11 @@ var TagCloudDefault = (function(){
 
         if(!_this.proxKeywordsMode) {
             var $tag = $(tagIdPrefix + '' + index);
+            var periodicity = $tag.attr('periodicity');
             $tag.siblings().each(function(i, siblingTag){
             var color  = $(siblingTag).data('originalColor');
             $(siblingTag).removeClass(dimmedClass)
-                .css({ background: getGradientString(color, 10), border: '1px solid ' + color });
+                .css({ background: getGradientString(color, 10,periodicity), border: '1px solid ' + color });
             });
         }
     };

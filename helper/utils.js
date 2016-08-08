@@ -145,7 +145,17 @@ function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
  *
  * */
 
-function getGradientString(color, shadeDiff) {
+function getGradientString(color, shadeDiff,periodicity) {
+
+    if(periodicity != null && periodicity != 0){
+        switch (periodicity) {
+            case '1': return '-webkit-linear-gradient(top, rgb(132, 204, 247) 0%, rgb(132, 204, 247) 20%, rgb(204, 174, 151) 98%, rgb(199, 193, 179) 100%);'; break;
+            case '2': return '-webkit-linear-gradient(top, rgb(94, 136, 247) 0%, rgb(94, 136, 247) 40%, rgb(204, 174, 151) 98%, rgb(199, 193, 179) 100%);'; break;
+            case '3': return '-webkit-linear-gradient(top, rgb(63, 85, 247) 0%, rgb(63, 85, 247) 60%, rgb(204, 174, 151) 98%, rgb(199, 193, 179) 100%);'; break;
+            case '4': return '-webkit-linear-gradient(top, rgba(0,33,247,1) 0%, rgba(12,24,245,1) 80%, rgb(204, 174, 151) 98%, rgb(199, 193, 179) 100%);'; break;
+            case '5': return '-webkit-linear-gradient(top,  #009af9 100%,#b7deed 100%);'; break;
+        }
+    }
 
     shadeDiff = shadeDiff || 10;
     var r = parseInt(hexToR(color));
@@ -155,7 +165,7 @@ function getGradientString(color, shadeDiff) {
     var original = 'rgb('+r+','+g+','+b+')';
     var lighter = 'rgb('+(r+shadeDiff)+','+(g+shadeDiff)+','+(b+shadeDiff)+')';
 
-    return '-webkit-linear-gradient(top, ' + original + ', ' + lighter + ', ' + original + ')';
+    //return '-webkit-linear-gradient(top, ' + original + ', ' + lighter + ', ' + original + ')';
 }
 
 
