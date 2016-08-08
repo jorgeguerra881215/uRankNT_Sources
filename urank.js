@@ -617,7 +617,8 @@ var Urank = (function(){
                         creator:"David J Reinkensmeyer, Jeremy L Emken, Steven C Cramer",
                         description: d.description,
                         collectionName: "",
-                        keyword: d.id in id_term? id_term[d.id]:"",
+                        keyword: d.id in id_term ? id_term[d.id]: d.keyword,
+                        observation: d.observation,
                         facets:{provider: "mendeley",year: "2004"}
                     }
                 );

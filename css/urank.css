@@ -558,8 +558,8 @@ Document Panel (right) - for visualizing highlighted text
 }
 
 .urank-docviewer-details-section div {
-    /*display: inline-flex;*/
-    width: 100%;
+    /*display: inline-flex;
+    width: 100%;*/
     align-items: flex-start;
     padding: .2em 0em;
 }
@@ -673,11 +673,141 @@ Document Panel (right) - for visualizing highlighted text
 #urank-docviewer-labeling-text{
     clear: both;
     display: block;
-    margin-top: 5px;
-    width: 100%
+    margin-bottom: 10px;
+    width: 100%;
+    margin-top: 3px;
+
+}
+
+#urank-docviewer-details-label{
+    margin: 5px;
 }
 
 label.urank-docviewer-attributes{
     font-weight: bold;
     margin-left: 5px;
+}
+
+#doc-user-section{
+    float: left;
+    /*margin: 5px;*/
+    padding: 2px;
+    border: 1px solid rgba(115, 115, 115, 1);
+}
+
+#doc-user-section-logo{
+    width: 60px;
+    height: 50px;
+    background: rgba(102, 102, 102, 1);
+}
+
+#doc-label-section{
+    float: left;
+    height: 30px;
+    width: 75%;
+}
+
+#doc-label-container{
+    /*background: #008000;*/
+    color: #ffffff;
+    height: 20px;
+    border-radius: 5px;
+    width: 25%;
+}
+
+#doc-label-containe label{
+    margin: 5px;font-size: .95em;
+}
+
+.doc-attributes-sontainer{
+    height: 17px;
+}
+
+div.urank-docviewer-divisor{
+    width: 100%;
+    height: 2px;
+    /*background: #EBEBEB;
+    border-radius: 25px;*/
+    border-top: 2px solid #EBEBEB;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.botnet{
+    background: red;
+}
+
+.normal{
+    background: #008000;
+}
+
+.unlabelled{
+    background: yellow;
+    color: #000000;
+}
+
+#urank-docviewer-details-label{
+        /*background: red;*/
+    padding: 6px;
+    border-radius: 10px;
+    padding-bottom: 8px;
+    margin-top: 4px;
+    /*padding-top: -18px;*/
+}
+
+.doc-word{
+    font-weight: bold;
+    margin-left: 5px;
+    /*border: 1px solid black;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 10px*/
+}
+
+#doc-viewer-statistic{
+    /*height: 100px;
+    border: 1px solid red;*/
+    /*margin: 5px;*/
+}
+
+#doc-viewer-top{
+    width: 400px;
+    height: 200px;
+}
+
+#doc-viewer-left{
+    float: left;
+    /*border: 1px solid red;*/
+    width: 50%;
+    height: 200px
+}
+
+/**********************************************************************************************************************
+*
+*   Bar Chart
+*
+***********************************************************************************************************************/
+
+.axis {
+    font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+#doc-viewer-statistic text{
+    font-size: 12px;
+}
+
+.arc text {
+    font: 10px sans-serif;
+    text-anchor: middle;
+}
+
+.arc path {
+    stroke: #fff;
 }
