@@ -111,8 +111,10 @@ var TagBox = (function(){
     };
 
 
-    var _dropTag = function(index, color){
-        var $tag = $(tagIdPrefix + '' + index);
+    var _dropTag = function(index, color,element_id){
+        var $tag = 0;
+        element_id != null ? $tag = $('#'+element_id) : $tag = $(tagIdPrefix + '' + index);
+        //var $tag = $(tagIdPrefix + '' + index);
         $tagContainer.find('p').remove();
 
         if ($tag.hasClass(s.droppableClass)) {
@@ -179,7 +181,8 @@ var TagBox = (function(){
         clear: _clear,
         dropTag: _dropTag,
         deleteTag: _deleteTag,
-        destroy: _destroy
+        destroy: _destroy,
+        onTagboxChanged: onTagboxChanged
     };
 
     return Tagbox;

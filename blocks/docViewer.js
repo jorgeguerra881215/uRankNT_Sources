@@ -73,8 +73,8 @@ var DocViewer = (function(){
 
             //list.build(_keywords,null);
             /*s.readFile('test.json', 'utf8', function(err,data){
-                console.log(data);
-            });*/
+             console.log(data);
+             });*/
             //Write info in data.txt file using php script
             var scriptURL = '../server/save.php',
                 date = new Date(),
@@ -191,7 +191,7 @@ var DocViewer = (function(){
             "<textarea id='urank-docviewer-labeling-text' rows='5'></textarea>"+
             "<button id='urank-label-button-botnet'>Botnet</button>" +
             "<button id='urank-label-button-normal' style='float: right'>Normal</button>" +
-          "</div>").appendTo($titleContainer);
+            "</div>").appendTo($titleContainer);
         $('#urank-label-button-botnet').click(saveBotnetLabel);
         $('#urank-label-button-normal').click(saveNormalLabel);
         $('#urank-docviewer-labeling-text').click(keepElementFocus);
@@ -223,8 +223,8 @@ var DocViewer = (function(){
 
         $root.on('mousedown', function(event){ event.stopPropagation(); });
 
-        if(this.opt.customScrollBars)
-            $contentSectionOuter.css('overflowY', 'hidden').mCustomScrollbar(customScrollOptions);
+        /*if(this.opt.customScrollBars)
+            $contentSectionOuter.css('overflowY', 'hidden').mCustomScrollbar(customScrollOptions);*/
 
 
 
@@ -234,11 +234,11 @@ var DocViewer = (function(){
 
 
     /**
-    * @private
-    * Description
-    * @param {type} document Description
-    * @param {Array} keywords (only stems)
-    */
+     * @private
+     * Description
+     * @param {type} document Description
+     * @param {Array} keywords (only stems)
+     */
     var _showDocument = function(document, keywords, colorScale){
         /**
          * Modified by Jorch
@@ -247,7 +247,7 @@ var DocViewer = (function(){
         _keywords = keywords;
         _colorScale = colorScale;
         $('#doc-viewer-detail').css('display','block');
-        var port_info = document.id.split("-");
+        var port_info = document.connection_id.split("-");
         var init_port = port_info[0];
         var dest_port = port_info[1];
         var port = port_info[2];
@@ -296,9 +296,9 @@ var DocViewer = (function(){
 
 
         $(detailItemIdPrefix + 'label').html(document.title); //class='urank-tagcloud-tag ui-draggable ui-draggable-handle dragging active'
-            /*"<div style='width: 100%; height: 30px'>"+
-                document.keyword+
-            "</div>");*/
+        /*"<div style='width: 100%; height: 30px'>"+
+         document.keyword+
+         "</div>");*/
         $('#doc-word-container').html('');
         document.keyword.split(' ').forEach(function(item){
             item != '' && item != ' ' ? $('#doc-word-container').append('<label class="doc-word">'+' '+ item+'</label>') : null;
@@ -381,7 +381,7 @@ var DocViewer = (function(){
      * Created by Jorch
      * @private
      */
-     var _updateSelectedKeys = function(selectedKeyWords){
+    var _updateSelectedKeys = function(selectedKeyWords){
         _selectedKeywords = selectedKeyWords
     };
 
@@ -391,12 +391,12 @@ var DocViewer = (function(){
          */
         // Clear details section
         /*$(detailItemIdPrefix + 'title').empty();
-        var facets = (this.opt && this.opt.facetsToShow) ? this.opt.facetsToShow : [];
-        facets.forEach(function(facet){
-            $(detailItemIdPrefix + '' + facet).empty();
-        });
-        // Clear content section
-        $contentSection.empty();*/
+         var facets = (this.opt && this.opt.facetsToShow) ? this.opt.facetsToShow : [];
+         facets.forEach(function(facet){
+         $(detailItemIdPrefix + '' + facet).empty();
+         });
+         // Clear content section
+         $contentSection.empty();*/
     };
 
 
@@ -418,7 +418,7 @@ var DocViewer = (function(){
             .scale(x)
             .orient("bottom")
             .ticks(10);
-            //.tickFormat(d3.time.format("%Y-%m"));
+        //.tickFormat(d3.time.format("%Y-%m"));
 
         var yAxis = d3.svg.axis()
             .scale(y)

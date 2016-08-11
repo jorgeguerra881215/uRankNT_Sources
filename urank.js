@@ -388,7 +388,7 @@ var Urank = (function(){
             var list = [];
             _this.data.forEach(function(d, i){
                 var label = d.title;
-                var attributes = d.id.split('-');
+                var attributes = d.connection_id.split('-');
                 var valid = true;
                 if(value.unlabelled != null && !(label != 'Botnet' && label != 'Normal')) valid = false;
                 if(valid && value.bot != null && label != 'Botnet') valid = false;
@@ -646,7 +646,9 @@ var Urank = (function(){
         clear: EVTHANDLER.onClear,
         destroy: EVTHANDLER.onDestroy,
         getCurrentState: MISC.getCurrentState,
-        updateTagsCloud: EVTHANDLER.onUpdateTagsCloud//,
+        updateTagsCloud: EVTHANDLER.onUpdateTagsCloud,
+        onTagDropped:EVTHANDLER.onTagDropped,
+        onChange:EVTHANDLER.onChange
         /**
          * Modified by Jorch
          */

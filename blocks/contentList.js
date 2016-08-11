@@ -649,7 +649,7 @@ var ContentList = (function(){
          * Modified by Jorch
          */
         $('#doc-viewer-detail').css('display','none');
-        $('#mCSB_2_container .urank-docviewer-content-section p').html('');
+        $('.urank-docviewer-content-section p').html('');
         $('#doc-viewer-top').html('');
         $('#doc-viewer-left').html('');
 
