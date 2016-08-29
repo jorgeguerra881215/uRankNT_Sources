@@ -416,8 +416,8 @@ var enterLog = function(value){
 
             contentList.selectManyListItem(list);
 
-            var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' ' + value.initialIp + ' ' + value.endIp+ ' ' + value.port + ' ' + value.protocol + ' ';
-            enterLog('Filter '+filters)
+            var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' (IP_0)' + value.initialIp + ' (IP_1)' + value.endIp+ ' (Port)' + value.port + ' (Protocol)' + value.protocol + ' ';
+            enterLog('Filter '+filters);
 
         },
         /**
@@ -492,7 +492,7 @@ var enterLog = function(value){
             s.onReset.call(this);
 
             //enter Log
-            enterLog('Reset Ranking ')
+            enterLog('Ranking Reset');
         },
 
         onDestroy: function() {
