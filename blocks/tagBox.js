@@ -27,6 +27,14 @@ var TagBox = (function(){
             if(_this.selectedKeywords.length == 0)
                 $tagContainer.append('<p>' + STR_DROP_TAGS_HERE + '</p>');
         }, 1);
+
+        //enterLog
+        var keys = "";
+        _this.selectedKeywords.forEach(function(item){
+            keys += item.term + " ";
+        });
+
+        urank.enterLog('Ranking '+ keys);
     };
 
     function Tagbox(arguments) {

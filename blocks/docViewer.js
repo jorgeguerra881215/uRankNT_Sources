@@ -84,6 +84,9 @@ var DocViewer = (function(){
 
             $.generateFile({ filename: "bookmarks.json", content: JSON.stringify(urankState), script: scriptURL });
 
+            //Saving logs register
+            urank.enterLog('Label - '+label+' - '+_document.id);
+
             return false;
         }
     }
@@ -375,6 +378,9 @@ var DocViewer = (function(){
         $contentSection.empty();
         var $p = $('<p></p>').appendTo($contentSection).html(getStyleWordSecuencie(document.description, keywords, colorScale));
         $p.hide().fadeIn('slow').scrollTo('top');
+
+        //Saving logs register
+        urank.enterLog('Connection - '+ _document.id);
     };
 
     /**

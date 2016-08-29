@@ -100,7 +100,17 @@ var Urank = (function(){
     };
 
 
+var enterLog = function(value){
+    var scriptURL = '../server/log.php',
+        date = new Date(),
+        timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
+        urankState = timestamp+' '+value,
+        gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
 
+    $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
+
+    return false;
+}
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -406,6 +416,23 @@ var Urank = (function(){
 
             contentList.selectManyListItem(list);
 
+            var filters = value.unlabelled + ' ' + value.bot + ' ' + value.notBot + ' ' + value.all + ' ' + value.initialIp + ' ' + value.endIp+ ' ' + value.port + ' ' + value.protocol + ' ';
+            enterLog('Filter '+filters)
+
+        },
+        /**
+         * Created by Jorch
+         */
+        onEnterLog: function(value){
+            var scriptURL = '../server/log.php',
+                date = new Date(),
+                timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(),
+                urankState = timestamp+' '+value,
+                gf = [{ filename: 'urank_labeled_' + timestamp + '.txt', content: urankState }];//JSON.stringify(urankState)
+
+            $.generateFile({ filename: "bookmarks.json", content: urankState, script: scriptURL });
+
+            return false;
         },
 
         onFindBotnet:function(value){
@@ -463,6 +490,9 @@ var Urank = (function(){
             _this.selectedId = STR_UNDEFINED;
             _this.selectedKeywords = [];
             s.onReset.call(this);
+
+            //enter Log
+            enterLog('Reset Ranking ')
         },
 
         onDestroy: function() {
@@ -641,6 +671,7 @@ var Urank = (function(){
         rankByOverallScore: EVTHANDLER.onRankByOverallScore,
         rankByMaximumScore: EVTHANDLER.onRankByMaximumScore,
         findNotLabeled: EVTHANDLER.onFindNotLabeled,
+        enterLog:EVTHANDLER.onEnterLog,
         //findBotnet:EVTHANDLER.onFindBotnet,
         //checkfindNotLabeled: EVTHANDLER.onChekFindNotLabeled(),
         clear: EVTHANDLER.onClear,
