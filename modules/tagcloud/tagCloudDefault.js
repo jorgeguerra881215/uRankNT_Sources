@@ -270,6 +270,12 @@ var TagCloudDefault = (function(){
         this.colorScale = colorScale;
         this.opt = opt;
 
+        var disabled_index = {};
+        $('#tagbox .urank-tagbox-tag').each(function(index){
+            var i = $(this).attr('tag-pos');
+            disabled_index[i] = this;
+        });
+
         // Empty tag container and add appropriate class/es
         $root = $(s.root).empty().addClass(tagcloudDefaultClass);
 
@@ -288,7 +294,13 @@ var TagCloudDefault = (function(){
             x = x != 0? Math.floor(x)+1 : 0;
             var perio = (5*x)/word.length;
 
-            var tagProperty = { class: tagClass, id: 'urank-tag-' + i, 'tag-pos': i, stem: k.stem, text: k.term, periodicity: perio };
+            var aux_index = i;
+            while(aux_index in disabled_index){
+                aux_index ++;
+            }
+            disabled_index[aux_index] = undefined;
+
+            var tagProperty = { class: tagClass, id: 'urank-tag-' + aux_index, 'tag-pos': aux_index, stem: k.stem, text: k.term, periodicity: perio };
 
             var $tag = $('<div></div>', tagProperty).appendTo($tagContainer)//.appendTo($root);
             $tag.hide().fadeIn((i+1)*20);
@@ -298,10 +310,10 @@ var TagCloudDefault = (function(){
                 percentage = Math.floor(k.inDocument.length/_this.data.length * 100),
                 tooltipMsg = k.inDocument.length + " (" + percentage + "%) documents contain " + termUpperCase + ". Click to highlight documents";
 
-            var $docHint = $('<div></div>', { class: documentHintClass+' hint--right hint--info hint--rounded', id: 'urank-tag-pie-' + i, 'data-hint': tooltipMsg }).appendTo($tag);
+            var $docHint = $('<div></div>', { class: documentHintClass+' hint--right hint--info hint--rounded', id: 'urank-tag-pie-' + aux_index, 'data-hint': tooltipMsg }).appendTo($tag);
             pieOptions.data.content[0].value = k.inDocument.length;
             pieOptions.data.content[1].value = _this.data.length - k.inDocument.length || 0.1;
-            var tagPie = new d3pie(tagPiePrefix+''+i, pieOptions);
+            var tagPie = new d3pie(tagPiePrefix+''+aux_index, pieOptions);
 
             // Append red circle section for keywords in proximity indicator
             if(k.keywordsInProximity.length > 0) {

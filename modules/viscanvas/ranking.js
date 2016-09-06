@@ -256,7 +256,9 @@ var Ranking = (function(){
                     .attr("height", y.rangeBand())
                     .attr("x", function(d) { return x(d.x0); })
                     .attr("width", 0)
-                    .style("fill", function(d) { return color(d.stem); });
+                    .style("fill", function(d) {
+                        return color(d.stem);
+                    });
 
                 var bars = stackedBars.selectAll('.'+barClass);
 

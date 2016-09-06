@@ -199,6 +199,7 @@ var enterLog = function(value){
 
             //  Custom callback
             s.onLoad.call(this, _this.keywords);
+
         },
 
         onChange: function(selectedKeywords) {
@@ -224,7 +225,9 @@ var enterLog = function(value){
 
 
         onTagDropped: function(index) {
-            var queryTermColor = _this.queryTermColorScale(_this.keywords[index].stem);
+            var stem = $('#urank-tag-'+index).attr('stem');
+            var queryTermColor = _this.queryTermColorScale(stem);
+            //var queryTermColor = _this.queryTermColorScale(_this.keywords[index].stem);
             tagBox.dropTag(index, queryTermColor);
             s.onTagDropped.call(this, index, queryTermColor);
         },
@@ -513,9 +516,9 @@ var enterLog = function(value){
         /**
          * Modified by Jorch
          */
-        onUpdateTagsCloud: function(stf_value,pattern_value,options){
+        onUpdateTagsCloud: function(stf_value,pattern_value,length_value,options){
             var o = $.extend(true, defaultLoadOptions, options || {});
-            tagCloud.build(_this.keywords, _this.data, _this.tagColorScale, o.tagCloud, _this.keywordsDict,stf_value,pattern_value);
+            tagCloud.build(_this.keywords, _this.data, _this.tagColorScale, o.tagCloud, _this.keywordsDict,stf_value,pattern_value,length_value);
         }
     };
 

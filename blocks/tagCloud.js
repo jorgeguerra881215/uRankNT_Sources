@@ -58,7 +58,7 @@ var TagCloud = (function(){
      * @param keywordsDict
      * @private
      */
-    var _build = function(keywords, data, colorScale, opt, keywordsDict, number_minDocFrequency,number_pattern){
+    var _build = function(keywords, data, colorScale, opt, keywordsDict, number_minDocFrequency,number_pattern,length_of_sequences){
 
         // Empty tag container and add appropriateclass
         $root = $(s.root).empty().addClass(tagcloudClass);
@@ -74,8 +74,7 @@ var TagCloud = (function(){
         if(typeof number_minDocFrequency !== "undefined"){
             //console.log('entro al nuevo !!!!!');
             keywords.forEach(function(item,index){
-                //console.log('numero de pattern: '+number_pattern);
-               if(item.inDocument.length >= number_minDocFrequency && item.repeated >= number_pattern){
+               if(item.inDocument.length >= number_minDocFrequency && item.repeated >= number_pattern && item.stem.length == length_of_sequences){
                    tagsClouds.push(item);
                }
             });
