@@ -172,10 +172,10 @@ var DocViewer = (function(){
          */
         //Section to show connection info
         var $titleContainer = $('<div class="doc-attributes-sontainer"></div>').appendTo($infoSection);
-        $("<input type='checkbox' id='filter-initial-port' name='connection-attribute' value='initial-ip'><label>Initial IP:</label>").appendTo($titleContainer);
+        $("<input type='checkbox' id='filter-initial-port' name='connection-attribute' value='initial-ip'><label>Ip Origin:</label>").appendTo($titleContainer);
         $("<label id='urank-docviewer-details-initport' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
         var $titleContainer = $('<div class="doc-attributes-sontainer"></div>').appendTo($infoSection);
-        $("<input type='checkbox' id='filter-end-port' name='connection-attribute' value='end-ip'><label>End IP:</label>").appendTo($titleContainer);
+        $("<input type='checkbox' id='filter-end-port' name='connection-attribute' value='end-ip'><label>Ip Dest:</label>").appendTo($titleContainer);
         $("<label id='urank-docviewer-details-destport' class='urank-docviewer-attributes'></label>").appendTo($titleContainer);
         var $titleContainer = $('<div class="doc-attributes-sontainer"></div>').appendTo($infoSection);
         $("<input type='checkbox' id='filter-port' name='connection-attribute' value='port'><label>Port:</label>").appendTo($titleContainer);

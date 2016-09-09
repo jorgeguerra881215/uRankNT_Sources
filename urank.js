@@ -516,9 +516,9 @@ var enterLog = function(value){
         /**
          * Modified by Jorch
          */
-        onUpdateTagsCloud: function(stf_value,pattern_value,length_value,options){
+        onUpdateTagsCloud: function(stf_value,pattern_value,length_value,order_by_periodicity,options){
             var o = $.extend(true, defaultLoadOptions, options || {});
-            tagCloud.build(_this.keywords, _this.data, _this.tagColorScale, o.tagCloud, _this.keywordsDict,stf_value,pattern_value,length_value);
+            tagCloud.build(_this.keywords, _this.data, _this.tagColorScale, o.tagCloud, _this.keywordsDict,stf_value,pattern_value,length_value,order_by_periodicity);
         }
     };
 

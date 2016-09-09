@@ -328,7 +328,11 @@ var ContentList = (function(){
         liDarkBackgroundClass = c.liDarkBackgroundClass == '' ? liDarkBackgroundClass : c.liDarkBackgroundClass;
 
     };
-
+    /**
+     * Creatin HeatMap for visual representation
+     * @param connection
+     * @returns {Array}
+     */
     var createVisualRepresentation = function(connection){
         //Periodicity feature
         var sNP = $('<label id="representation-snp" style="color: transparent;padding: 5px;border-right:1px solid #ffffff ">M</label>'), rep_sNP = /[R-Z]/, count_sNP = 0;
@@ -388,9 +392,12 @@ var ContentList = (function(){
 
         var count_of_letter = count_sNP + count_wNP + count_wP + count_sP;
 
+        var colors = ['#ffefd8','#ffe7c4','#ffdfb1','#ffd89d','#ffd089','#ffc876','#ffc062','#ffb84f','#ffb03b','#ffa827','#ffa014','#ff9800','#ec8d00','#d88100','#c47500','#b16900','#9d5e00','#895200','#623b00','#3b2300']
+        var ranges = 101 / (colors.length);
         //Count periodicity feature
         var porcent_count_sNP = (count_sNP * 100)/ count_of_letter;
-        if(porcent_count_sNP < 25){
+        sNP.css('background',colors[Math.floor(porcent_count_sNP/ranges)]);
+        /*if(porcent_count_sNP < 25){
             sNP.css('background','#FFF0A5');
         }
         else if(porcent_count_sNP > 25 && porcent_count_sNP < 50){
@@ -401,10 +408,11 @@ var ContentList = (function(){
         }
         else{
             sNP.css('background','#8E2800');
-        }
+        }*/
 
         var porcent_count_wNP = (count_wNP * 100)/ count_of_letter;
-        if(porcent_count_wNP < 25){
+        wNP.css('background',colors[Math.floor(porcent_count_wNP/ranges)]);
+        /*if(porcent_count_wNP < 25){
             wNP.css('background','#FFF0A5');
         }
         else if(porcent_count_wNP > 25 && porcent_count_wNP < 50){
@@ -415,10 +423,11 @@ var ContentList = (function(){
         }
         else{
             wNP.css('background','#8E2800');
-        }
+        }*/
 
         var porcent_count_wP = (count_wP * 100)/ count_of_letter;
-        if(porcent_count_wP < 25){
+        wP.css('background',colors[Math.floor(porcent_count_wP/ranges)]);
+        /*if(porcent_count_wP < 25){
             wP.css('background','#FFF0A5');
         }
         else if(porcent_count_wP > 25 && porcent_count_wP < 50){
@@ -429,10 +438,11 @@ var ContentList = (function(){
         }
         else{
             wP.css('background','#8E2800');
-        }
+        }*/
 
         var porcent_count_sP = (count_sP * 100)/ count_of_letter;
-        if(porcent_count_sP < 25){
+        sP.css('background',colors[Math.floor(porcent_count_sP/ranges)]);
+        /*if(porcent_count_sP < 25){
             sP.css('background','#FFF0A5');
         }
         else if(porcent_count_sP > 25 && porcent_count_sP < 50){
@@ -443,11 +453,12 @@ var ContentList = (function(){
         }
         else{
             sP.css('background','#8E2800');
-        }
+        }*/
 
         //Count duration feature
         var porcent_count_dS = (count_dS * 100)/ count_of_letter;
-        if(porcent_count_dS < 3.34){
+        dS.css('background',colors[Math.floor(porcent_count_dS/ranges)]);
+        /*if(porcent_count_dS < 3.34){
             dS.css('background','#FFF0A5');
         }
         else if(porcent_count_dS > 3.34 && porcent_count_dS < 6.67){
@@ -455,10 +466,11 @@ var ContentList = (function(){
         }
         else if(porcent_count_dS > 6.67){
             dS.css('background','#B64926');
-        }
+        }*/
 
         var porcent_count_dM = (count_dM * 100)/ count_of_letter;
-        if(porcent_count_dM < 3.34){
+        dM.css('background',colors[Math.floor(porcent_count_dM/ranges)]);
+        /*if(porcent_count_dM < 3.34){
             dM.css('background','#FFF0A5');
         }
         else if(porcent_count_dM > 3.34 && porcent_count_dM < 6.67){
@@ -466,10 +478,11 @@ var ContentList = (function(){
         }
         else if(porcent_count_dM > 6.67){
             dM.css('background','#B64926');
-        }
+        }*/
 
         var porcent_count_dL = (count_dL * 100)/ count_of_letter;
-        if(porcent_count_dL < 3.34){
+        dL.css('background',colors[Math.floor(porcent_count_dL/ranges)]);
+        /*if(porcent_count_dL < 3.34){
             dL.css('background','#FFF0A5');
         }
         else if(porcent_count_dL > 3.34 && porcent_count_dL < 6.67){
@@ -477,11 +490,12 @@ var ContentList = (function(){
         }
         else if(porcent_count_dL > 6.67){
             dL.css('background','#B64926');
-        }
+        }*/
 
         //Count size feature
         var porcent_count_sS = (count_sS * 100)/ count_of_letter;
-        if(porcent_count_sS < 3.34){
+        sS.css('background',colors[Math.floor(porcent_count_sS/ranges)]);
+        /*if(porcent_count_sS < 3.34){
             sS.css('background','#FFF0A5');
         }
         else if(porcent_count_sS > 3.34 && porcent_count_sS < 6.67){
@@ -489,10 +503,11 @@ var ContentList = (function(){
         }
         else if(porcent_count_sS > 6.67){
             sS.css('background','#B64926');
-        }
+        }*/
 
         var porcent_count_sM = (count_sM * 100)/ count_of_letter;
-        if(porcent_count_sM < 3.34){
+        sM.css('background',colors[Math.floor(porcent_count_sM/ranges)]);
+        /*if(porcent_count_sM < 3.34){
             sM.css('background','#FFF0A5');
         }
         else if(porcent_count_sM > 3.34 && porcent_count_sM < 6.67){
@@ -500,10 +515,11 @@ var ContentList = (function(){
         }
         else if(porcent_count_sM > 6.67){
             sM.css('background','#B64926');
-        }
+        }*/
 
         var porcent_count_sL = (count_sL * 100)/ count_of_letter;
-        if(porcent_count_sL < 3.34){
+        sL.css('background',colors[Math.floor(porcent_count_sL/ranges)]);
+        /*if(porcent_count_sL < 3.34){
             sL.css('background','#FFF0A5');
         }
         else if(porcent_count_sL > 3.34 && porcent_count_sL < 6.67){
@@ -511,7 +527,7 @@ var ContentList = (function(){
         }
         else if(porcent_count_sL > 6.67){
             sL.css('background','#B64926');
-        }
+        }*/
 
         return [sP,wP,wNP,sNP,dS,dM,dL,sS,sM,sL]
 
@@ -532,18 +548,6 @@ var ContentList = (function(){
             var $rankingDiv = $("<div></div>").appendTo($li).addClass(liRankingContainerClass).css('visibility', 'hidden');
             $("<div></div>").appendTo($rankingDiv).addClass(rankingPosClass);
             $("<div></div>").appendTo($rankingDiv).addClass(rankingPosMovedClass);
-            // title section
-            var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
-            var html = createVisualRepresentation(d);//&nbsp;
-            var index = i+1 < 10 ? (i+1)+'-'+'&nbsp;&nbsp;' : (i+1)+'-';
-            var list_element_container = $('<div><div style="float: left; width: 20%"><label>'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
-            var visual_representation = $('<div style="float: left; width: 75%"></div>').appendTo(list_element_container);
-            html.forEach(function(label){
-               label.appendTo(visual_representation);
-            });
-
-            // buttons sectionh
-            var $buttonsDiv = $("<div></div>").appendTo($li).addClass(liButtonsContainerClass);
 
             /**
              * Modified by Jorch
@@ -555,10 +559,34 @@ var ContentList = (function(){
                 case 'Normal': trafic_ligth = 'green-circle'; break;
                 default: break;
             }
-            $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');
+            var ligth_circle = '<label><span urank-span-id="'+ d.id+'" class="urank-list-li-button-favicon-default-left '+trafic_ligth+' traffic-ligth"></span></label>';
+            // title section
+            var $titleDiv = $("<div></div>").appendTo($li).addClass(liTitleContainerClass);
+            var html = createVisualRepresentation(d);//&nbsp;
+            var index = i+1 < 10 ? (i+1)+'-'+'&nbsp;&nbsp;' : (i+1)+'-';
+            var list_element_container = $('<div><div style="float: left; width: 20%">'+ligth_circle+'<label>'+index+'</label></div></div>', { id: 'urank-list-li-title-' + i, class: liTitleClass +' '+ liTitleClassDefault, html: html, title: d.title + '\n' + d.description }).appendTo($titleDiv);
+            var visual_representation = $('<div style="float: left; width: 75%"></div>').appendTo(list_element_container);
+            html.forEach(function(label){
+               label.appendTo(visual_representation);
+            });
 
-            $("<span>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
-            $("<span>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
+            // buttons sectionh
+            var $buttonsDiv = $("<div></div>").appendTo($li).addClass(liButtonsContainerClass);
+
+            /**
+             * Modified by Jorch
+             * Adding traffic light in the connection list to indicate the labeling process
+
+            var trafic_ligth = 'yellow-circle';
+            switch (d.title) {
+                case 'Botnet': trafic_ligth = 'red-circle'; break;
+                case 'Normal': trafic_ligth = 'green-circle'; break;
+                default: break;
+            }
+            $("<span>",{'urank-span-id': d.id}).appendTo($buttonsDiv).addClass(faviconDefaultClass+' '+trafic_ligth+' '+'traffic-ligth');*/
+
+            $("<span style='margin-left: 8px'>").appendTo($buttonsDiv).addClass(watchiconClass+' '+watchiconDefaultClass+' '+watchiconOffClass);
+            $("<span style='margin-left: -8px'>").appendTo($buttonsDiv).addClass(faviconClass+' '+faviconDefaultClass+' '+faviconOffClass);
             // Subtle animation
             $li.animate({'top': 5}, {
                 'complete': function(){

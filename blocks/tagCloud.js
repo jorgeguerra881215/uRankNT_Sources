@@ -49,6 +49,35 @@ var TagCloud = (function(){
         this.tagcloud.build(keywords, data, colorScale, options, keywordsDict);
     };
 
+    var periodicity_filter = function(keywords){
+        var dict_aux = {};
+        var rep_sP = /[a-i]/;
+        var rep_wP = /[A-I]/;
+        keywords.forEach(function(item,index){
+            var stem = item.stem;
+            var i = stem.length;
+            var letter = '';
+            var count = 0;
+            while(i--){
+                letter = stem[i];
+                if(rep_sP.test(letter)){
+                    count +=1;
+                }
+                if(rep_wP.test(letter)){
+                    count +=0.5;
+                }
+            }
+            count in dict_aux ? dict_aux[count].push(item) : dict_aux[count] = [item];
+        });
+        var keys = Object.keys(dict_aux);
+        keys.sort();
+        var result = [];
+        for (var i = keys.length-1; i >= 0; i--) {
+            result = result.concat(dict_aux[keys[i]]);
+        }
+        return result;
+    }
+
     /**
      * Modified by Jorch
      * @param keywords
@@ -58,7 +87,7 @@ var TagCloud = (function(){
      * @param keywordsDict
      * @private
      */
-    var _build = function(keywords, data, colorScale, opt, keywordsDict, number_minDocFrequency,number_pattern,length_of_sequences){
+    var _build = function(keywords, data, colorScale, opt, keywordsDict, number_minDocFrequency,number_pattern,length_of_sequences,order_by_periodicity){
 
         // Empty tag container and add appropriateclass
         $root = $(s.root).empty().addClass(tagcloudClass);
@@ -79,7 +108,11 @@ var TagCloud = (function(){
                }
             });
             tagsClouds = tagsClouds.slice(0,100);
+            if(order_by_periodicity != undefined && order_by_periodicity){
+                tagsClouds = periodicity_filter(tagsClouds);
+            }
             //console.log('numeor de stf connections: '+number_minDocFrequency);
+            //tagsClouds = periodicity_filter(tagsClouds);
             this.tagcloud.build(tagsClouds, data, colorScale, options, keywordsDict);
         }
         else{
