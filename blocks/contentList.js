@@ -403,7 +403,8 @@ var ContentList = (function(){
 
         var count_of_letter = count_sNP + count_wNP + count_wP + count_sP;
 
-        var colors = ['#ffefd8','#ffe7c4','#ffdfb1','#ffd89d','#ffd089','#ffc876','#ffc062','#ffb84f','#ffb03b','#ffa827','#ffa014','#ff9800','#ec8d00','#d88100','#c47500','#b16900','#9d5e00','#895200','#623b00','#3b2300']
+        //var colors = ['#ffefd8','#ffe7c4','#ffdfb1','#ffd89d','#ffd089','#ffc876','#ffc062','#ffb84f','#ffb03b','#ffa827','#ffa014','#ff9800','#ec8d00','#d88100','#c47500','#b16900','#9d5e00','#895200','#623b00','#3b2300']
+        var colors = ['#00008F','#0000BF','#0000EF','#001FFF','#005FFF','#008FFF','#00BFFF','#00EFFF','#2FFFCF','#5FFF9F','#AFFF4F','#DFFF1F','#FFDF00','#FFAF00','#FF7F00','#FF4F00','#FF0F00','#DF0000','#AF0000','#7F0000']
         var ranges = 101 / (colors.length);
         //Count periodicity feature
         var porcent_count_sNP = (count_sNP * 100)/ count_of_letter;
