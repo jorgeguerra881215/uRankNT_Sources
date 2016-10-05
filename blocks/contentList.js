@@ -126,11 +126,22 @@ var ContentList = (function(){
         $('.'+liClass).removeClass(liLightBackgroundClass).removeClass(liDarkBackgroundClass).removeClass(liUnrankedClass);
 
         _this.data.forEach(function(d, i) {
-            var backgroundClass = (i % 2 == 0) ? liLightBackgroundClass : liDarkBackgroundClass;
+            var backgroundClass = "";
+            var not_backgroundClass = "";
+
+            if(i % 2 == 0){
+                backgroundClass = liLightBackgroundClass;
+                not_backgroundClass = liDarkBackgroundClass;
+            }
+            else{
+                backgroundClass = liDarkBackgroundClass;
+                not_backgroundClass = liLightBackgroundClass;
+            }
+            //var backgroundClass = (i % 2 == 0) ? liLightBackgroundClass : liDarkBackgroundClass;
+            $('.'+liClass+'['+urankIdAttr+'="'+d.id+'"]').removeClass(not_backgroundClass);
             $('.'+liClass+'['+urankIdAttr+'="'+d.id+'"]').addClass(backgroundClass);
         });
     };
-
 
     var showRankingPositions = function() {
 

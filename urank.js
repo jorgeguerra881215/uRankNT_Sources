@@ -652,6 +652,7 @@ var enterLog = function(value){
                         collectionName: "",
                         keyword: d.id in id_term ? id_term[d.id]: d.keyword,
                         observation: d.observation,
+                        connection_id: d.connection_id,
                         facets:{provider: "mendeley",year: "2004"}
                     }
                 );
